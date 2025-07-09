@@ -2,14 +2,18 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
-  <title>Dołącz do gry</title>
-  <link rel="stylesheet" href="style/join.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dołącz do gry - Eventyyy</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>🔗 Dołącz do gry</h1>
-  <input type="text" placeholder="Twój nick" id="nick" />
-  <input type="text" placeholder="Kod pokoju" id="roomCode" />
-  <button onclick="joinGame()">Dołącz</button>
-  <script src="js/join.js"></script>
+  <div class="container">
+    <h1>Dołącz do gry</h1>
+    <form id="joinRoomForm">
+      <input type="text" id="roomCode" placeholder="Kod pokoju" required />
+      <button type="submit" class="btn">Dołącz</button>
+    </form>
+    <a href="index.html" class="back-link">← Powrót do menu</a>
+  </div>
 </body>
 </html>
