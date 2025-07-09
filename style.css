@@ -1,59 +1,62 @@
-/* Całe ciało i tło */
 body {
   margin: 0;
-  height: 100vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #4a90e2, #50e3c2);
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: white;
+  height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
-/* Kontener na całą zawartość */
 .container {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 2rem 3rem;
+  border-radius: 12px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.15);
-  padding: 40px 60px;
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  width: 320px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
 
-/* Nagłówek */
-.container h1 {
-  color: white;
-  font-size: 3rem;
-  margin-bottom: 30px;
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-}
-
-/* Kontener na przyciski */
-.buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* Styl przycisków */
-.btn {
-  display: block;
-  background: rgba(255, 255, 255, 0.3);
-  color: white;
-  text-decoration: none;
+h1 {
+  margin-bottom: 1.5rem;
   font-weight: 700;
-  font-size: 1.5rem;
-  padding: 18px 30px;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  transition: background 0.3s ease, color 0.3s ease;
-  user-select: none;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 6px;
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+}
+
+.btn {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 6px;
+  background: #4caf50;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease;
 }
 
 .btn:hover {
-  background: white;
-  color: #4a90e2;
-  box-shadow: 0 6px 20px rgba(74,144,226,0.7);
-  cursor: pointer;
+  background: #45a049;
 }
 
+.back-link {
+  display: block;
+  margin-top: 1rem;
+  color: #cfcfcf;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
