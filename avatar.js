@@ -240,3 +240,19 @@ function animate() {
   avatarGroup.rotation.y += 0.005;
   renderer.render(scene, camera);
 }
+
+// Przykładowa budowa ciała i głowy (z mojego kodu):
+const bodyGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1.5, 32);
+const bodyMaterial = new THREE.MeshStandardMaterial({ color: 0x0077ff });
+const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+body.position.y = 1;
+
+const headGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+const headMaterial = new THREE.MeshStandardMaterial({ color: 0xffcc99 });
+const head = new THREE.Mesh(headGeometry, headMaterial);
+head.position.y = 2.3;
+
+const avatarGroup = new THREE.Group();
+avatarGroup.add(body);
+avatarGroup.add(head);
+scene.add(avatarGroup);
