@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Personalizowany Avatar</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: white;
+  }
+  .avatar-container {
+    position: relative;
+    width: 250px;
+    height: 250px;
+  }
+  .avatar-circle {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background-color: rgba(255, 200, 0, 0.7);
+    position: relative;
+    box-shadow: 0 0 15px rgba(255, 200, 0, 0.9);
+  }
+  /* Oczy */
+  .eye {
+    position: absolute;
+    top: 80px;
+    width: 40px;
+    height: 40px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: inset 0 0 8px #000;
+  }
+  .eye.left {
+    left: 55px;
+  }
+  .eye.right {
+    right: 55px;
+  }
+  .pupil {
+    width: 20px;
+    height: 20px;
+    background: black;
+    border-radius: 50%;
+    margin: 10px auto;
+    position: relative;
+    top: 0;
+  }
+  /* Usta */
+  .mouth {
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 40px;
+    border-bottom: 6px solid #900;
+    border-radius: 0 0 70px 70px;
+    background-color: transparent;
+  }
+  /* Język */
+  .tongue {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 30px;
+    background: #ff4d4d;
+    border-radius: 30px 30px 50px 50px;
+    display: none;
+  }
+  /* Dodatki */
+  .hat {
+    position: absolute;
+    top: 10px;
+    left: 60px;
+    width: 130px;
+    height: 70px;
+    background: #222;
+    border-radius: 80% 80% 20% 20% / 100% 100% 0 0;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.7);
+    display: none;
+  }
+  .mustache {
+    position: absolute;
+    bottom: 95px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 20px;
+    background: #331a00;
+    border-radius: 20px 20px 50px 50px;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.6);
+    display: none;
+  }
+  /* Panel ustawień */
+  .controls {
+    margin-left: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .controls label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .color-picker {
+    width: 60px;
+    height: 30px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+  button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    background: #764ba2;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: #5a3681;
+  }
+</style>
+</head>
+<body>
+  <div class="avatar-container">
+    <div id="avatar" class="avatar-circle" style="background-color: rgba(255, 200, 0, 0.7);">
+      <div class="eye left"><div class="pupil"></div></div>
+      <div class="eye right"><div class="pupil"></div></div>
+      <div class="mouth"></div>
+      <div id="tongue" class="tongue"></div>
+      <div id="hat" class="hat"></div>
+      <div id="mustache" class="mustache"></div>
+    </div>
+  </div>
+  <div class="controls">
+    <label>Kolor skóry: <input type="color" id="skinColor" class="color-picker" value="#ffc800"></label>
+    <label><input type="checkbox" id="toggleHat"> Czapka</label>
+    <label><input type="checkbox" id="toggleMustache"> Wąsy</label>
+    <label><input type="checkbox" id="toggleTongue"> Język</label>
+    <button id="randomizeBtn">Losuj wygląd</button>
+  </div>
+
+<script>
+  const avatar = document.getElementById('avatar');
+  const skinColorInput = document.getElementById('skinColor');
+  const hat = document.getElementById('hat');
+  const mustache = document.getElementById('mustache');
+  const tongue = document.getElementById('tongue');
+  const toggleHat = document.getElementById('toggleHat');
+  const toggleMustache = document.getElementById('toggleMustache');
+  const toggleTongue = document.getElementById('toggleTongue');
+  const randomizeBtn = document.getElementById('randomizeBtn');
+
+  skinColorInput.addEventListener('input', () => {
+    const color = skinColorInput.value;
+    avatar.style.backgroundColor = hexToRgba(color, 0.7);
+  });
+
+  toggleHat.addEventListener('change', () => {
+    hat.style.display = toggleHat.checked ? 'block' : 'none';
+  });
+  toggleMustache.addEventListener('change', () => {
+    mustache.style.display = toggleMustache.checked ? 'block' : 'none';
+  });
+  toggleTongue.addEventListener('change', () => {
+    tongue.style.display = toggleTongue.checked ? 'block' : 'none';
+  });
+
+  randomizeBtn.addEventListener('click', () => {
+    // Losowy kolor skóry
+    const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+    skinColorInput.value = randomColor;
+    avatar.style.backgroundColor = hexToRgba(randomColor, 0.7);
+    // Losowe dodatki
+    toggleHat.checked = Math.random() > 0.5;
+    toggleMustache.checked = Math.random() > 0.5;
+    toggleTongue.checked = Math.random() > 0.5;
+    hat.style.display = toggleHat.checked ? 'block' : 'none';
+    mustache.style.display = toggleMustache.checked ? 'block' : 'none';
+    tongue.style.display = toggleTongue.checked ? 'block' : 'none';
+  });
+
+  // Pomocnicza funkcja hex -> rgba z alfa
+  function hexToRgba(hex, alpha) {
+    const r = parseInt(hex.substr(1,2),16);
+    const g = parseInt(hex.substr(3,2),16);
+    const b = parseInt(hex.substr(5,2),16);
+    return `rgba(${r},${g},${b},${alpha})`;
+  }
+</script>
+</body>
+</html>
