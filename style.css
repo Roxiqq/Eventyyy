@@ -1,1 +1,59 @@
+/* Całe ciało i tło */
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #4a90e2, #50e3c2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Kontener na całą zawartość */
+.container {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 40px 60px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Nagłówek */
+.container h1 {
+  color: white;
+  font-size: 3rem;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+}
+
+/* Kontener na przyciski */
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Styl przycisków */
+.btn {
+  display: block;
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.5rem;
+  padding: 18px 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transition: background 0.3s ease, color 0.3s ease;
+  user-select: none;
+}
+
+.btn:hover {
+  background: white;
+  color: #4a90e2;
+  box-shadow: 0 6px 20px rgba(74,144,226,0.7);
+  cursor: pointer;
+}
 
