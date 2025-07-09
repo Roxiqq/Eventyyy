@@ -2,14 +2,18 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
-  <title>Stwórz grę</title>
-  <link rel="stylesheet" href="style/create.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stwórz pokój - Eventyyy</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>🛠️ Tworzenie pokoju</h1>
-  <input type="text" placeholder="Twoja nazwa" id="hostName" />
-  <button onclick="startGame()">Rozpocznij grę</button>
-  <script src="js/create.js"></script>
+  <div class="container">
+    <h1>Stwórz pokój</h1>
+    <form id="createRoomForm">
+      <input type="text" id="roomName" placeholder="Nazwa pokoju" required />
+      <button type="submit" class="btn">Stwórz pokój</button>
+    </form>
+    <a href="index.html" class="back-link">← Powrót do menu</a>
+  </div>
 </body>
 </html>
-
