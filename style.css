@@ -1,79 +1,55 @@
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
-  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #1e1e2f;
+  color: #fff;
+  font-family: sans-serif;
   height: 100vh;
-  display: flex;
-  align-items: center;
   justify-content: center;
 }
 
-.container {
-  background: rgba(0, 0, 0, 0.5);
-  padding: 2rem 3rem;
-  border-radius: 12px;
-  text-align: center;
-  width: 320px;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+.avatar-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin-bottom: 30px;
 }
 
-h1 {
-  margin-bottom: 1.5rem;
-  font-weight: 700;
+.layer {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
 }
 
-input[type="text"] {
-  width: 100%;
-  padding: 0.8rem;
+.layer img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+}
+
+.controls {
+  display: flex;
+  gap: 20px;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.control-group button {
+  background: #444;
   border: none;
-  border-radius: 6px;
-  margin-bottom: 1.2rem;
-  font-size: 1rem;
-}
-
-.btn {
-  width: 100%;
-  padding: 0.8rem;
-  font-size: 1.1rem;
-  border: none;
-  border-radius: 6px;
-  background: #4caf50;
-  color: white;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 4px 8px;
   cursor: pointer;
-  font-weight: 600;
-  transition: background 0.3s ease;
+  border-radius: 4px;
 }
 
-.btn:hover {
-  background: #45a049;
+.control-group span {
+  min-width: 60px;
+  text-align: center;
 }
-
-.back-link {
-  display: block;
-  margin-top: 1rem;
-  color: #cfcfcf;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-.back-link:hover {
-  text-decoration: underline;
-}
-
-/* Avatar - proste kółko z literką */
-.avatar {
-  width: 50px;
-  height: 50px;
-  background-color: #6a5acd; /* fioletowy kolor */
-  border-radius: 50%;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 24px;
-  user-select: none;
-  margin: 5px auto;
-}
-
