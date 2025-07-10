@@ -38,3 +38,57 @@
     window.location.href = 'game.html';
   };
 </script>
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Test Skinu</title>
+  <style>
+    body { background:#222; color:#fff; font-family:sans-serif; text-align:center; }
+    .avatar { margin:40px auto; position:relative; width:120px; height:120px; }
+    .face { width:100%; height:100%; background:#ffc107; border-radius:50%; }
+    .hat { position:absolute; top:-10px; left:15px; width:90px; height:40px; background:#333; border-radius: 50% 50% 0 0; display:none; }
+    .mustache { position:absolute; bottom:20px; left:20px; width:80px; height:20px; background:#663300; border-radius:10px; display:none; }
+    .btn { margin:10px; padding:10px 20px; background:#555; color:#fff; border:none; border-radius:8px; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <h1>Skin Test</h1>
+  <div class="avatar" id="avatar">
+    <div class="face"></div>
+    <div class="hat" id="hat"></div>
+    <div class="mustache" id="mustache"></div>
+  </div>
+  <button class="btn" id="skinBtn">Zmień Skin</button>
+
+  <script>
+    const avatar = document.getElementById('avatar');
+    const hat = document.getElementById('hat');
+    const mustache = document.getElementById('mustache');
+    const face = avatar.querySelector('.face');
+
+    const skins = [
+      { color:'#ffc107', hat:false, mustache:false },
+      { color:'#8e44ad', hat:true,  mustache:false },
+      { color:'#2ecc71', hat:false, mustache:true },
+      { color:'#e67e22', hat:true,  mustache:true }
+    ];
+    let idx = 0;
+
+    function applySkin(i){
+      const s = skins[i];
+      face.style.background = s.color;
+      hat.style.display = s.hat ? 'block' : 'none';
+      mustache.style.display = s.mustache ? 'block' : 'none';
+    }
+
+    document.getElementById('skinBtn').onclick = ()=>{
+      idx = (idx + 1) % skins.length;
+      applySkin(idx);
+    };
+
+    applySkin(0);
+  </script>
+</body>
+</html>
