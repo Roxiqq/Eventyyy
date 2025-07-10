@@ -1,118 +1,67 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8" />
-  <title>Avatar 3D – rozbudowany humanoid</title>
+  <meta charset="UTF-8"/>
+  <title>Avatar 3D – Humanoid</title>
   <style>
-    body, html { margin:0; height:100%; overflow:hidden; background: #222; }
-    canvas { display: block; }
+    body, html { margin:0; height:100%; overflow:hidden; background: linear-gradient(135deg, #1e3c72, #2a5298); }
+    #container { width:100%; height:100%; }
   </style>
 </head>
 <body>
+  <div id="container"></div>
+  <!-- Three.js i GLTFLoader -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/controls/OrbitControls.js"></script>
   <script>
-    // Scena, kamera, renderer
+    // 1) Inicjalizacja sceny, kamery i renderera
+    const container = document.getElementById('container');
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 2, 6);
-    camera.lookAt(0, 1, 0);
+    camera.position.set(0, 1.2, 3);
 
-    const renderer = new THREE.WebGLRenderer({antialias:true});
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+    container.appendChild(renderer.domElement);
 
-    // Światła
-    const dir = new THREE.DirectionalLight(0xffffff, 1);
-    dir.position.set(5,10,7);
+    // 2) Światło
+    const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1.2);
+    hemi.position.set(0, 2, 0);
+    scene.add(hemi);
+
+    const dir = new THREE.DirectionalLight(0xffffff, 0.8);
+    dir.position.set(5, 10, 7.5);
     scene.add(dir);
-    scene.add(new THREE.AmbientLight(0x404040));
 
-    // Materiał
-    const mat = new THREE.MeshStandardMaterial({ color: 0x44aa88, flatShading:true });
+    // 3) Kontrolki Orbit
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 1.2, 0);
+    controls.update();
 
-    // Grupa avatara
-    const avatar = new THREE.Group();
+    // 4) Wczytanie modelu glTF
+    const loader = new THREE.GLTFLoader();
+    loader.load(
+      'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/CesiumMan/glTF/CesiumMan.gltf',
+      gltf => {
+        const model = gltf.scene;
+        model.scale.set(1.2,1.2,1.2);
+        scene.add(model);
+        animate();
+      },
+      undefined,
+      error => console.error('Błąd ładowania modelu:', error)
+    );
 
-    // ----- TUŁÓW -----
-    const torsoGeom = new THREE.BoxGeometry(1, 1.5, 0.5);
-    const torso = new THREE.Mesh(torsoGeom, mat);
-    torso.position.y = 1.0;
-    avatar.add(torso);
-
-    // ----- SZYJA -----
-    const neckGeom = new THREE.CylinderGeometry(0.2,0.2,0.3,16);
-    const neck = new THREE.Mesh(neckGeom, mat);
-    neck.position.y = 1.9;
-    avatar.add(neck);
-
-    // ----- GŁOWA -----
-    const headGeom = new THREE.SphereGeometry(0.4,32,32);
-    const head = new THREE.Mesh(headGeom, mat);
-    head.position.y = 2.4;
-    avatar.add(head);
-
-    // ----- RAMIONA -----
-    function makeArm(side){
-      const armGroup = new THREE.Group();
-      // bark (kula)
-      const shoulder = new THREE.Mesh(new THREE.SphereGeometry(0.15,16,16), mat);
-      shoulder.position.set(side*0.7,1.6,0);
-      armGroup.add(shoulder);
-      // górna ręka
-      const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.12,0.8,12), mat);
-      upper.position.set(side*0.7,1.2,0);
-      upper.rotation.z = side * 0.2;
-      armGroup.add(upper);
-      // łokieć (kula)
-      const elbow = new THREE.Mesh(new THREE.SphereGeometry(0.12,12,12), mat);
-      elbow.position.set(side*0.3,0.8,0);
-      armGroup.add(elbow);
-      // przedramię
-      const lower = new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.1,0.8,12), mat);
-      lower.position.set(side*0.3,0.4,0);
-      lower.rotation.z = side * -0.1;
-      armGroup.add(lower);
-      return armGroup;
-    }
-    avatar.add(makeArm(-1)); // lewa
-    avatar.add(makeArm(1));  // prawa
-
-    // ----- NOGI -----
-    function makeLeg(side){
-      const legGroup = new THREE.Group();
-      // biodro (kula)
-      const hip = new THREE.Mesh(new THREE.SphereGeometry(0.18,16,16), mat);
-      hip.position.set(side*0.3,0.25,0);
-      legGroup.add(hip);
-      // udo
-      const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.15,0.15,1,12), mat);
-      upper.position.set(side*0.3,-0.5,0);
-      legGroup.add(upper);
-      // kolano
-      const knee = new THREE.Mesh(new THREE.SphereGeometry(0.13,12,12), mat);
-      knee.position.set(side*0.3,-1.1,0);
-      legGroup.add(knee);
-      // goleń
-      const lower = new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.12,1,12), mat);
-      lower.position.set(side*0.3,-1.7,0);
-      legGroup.add(lower);
-      return legGroup;
-    }
-    avatar.add(makeLeg(-0.3)); // lewa
-    avatar.add(makeLeg(0.3));  // prawa
-
-    scene.add(avatar);
-
-    // Animacja
-    function animate(){
+    // 5) Animacja
+    function animate() {
       requestAnimationFrame(animate);
-      avatar.rotation.y += 0.005;
+      controls.update();
       renderer.render(scene, camera);
     }
-    animate();
 
-    // Responsywność
-    window.addEventListener('resize',()=>{
+    // 6) Responsywność
+    window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth/window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
