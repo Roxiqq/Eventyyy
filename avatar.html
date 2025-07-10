@@ -1,70 +1,104 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8"/>
-  <title>Avatar 3D – Humanoid</title>
+  <meta charset="UTF-8" />
+  <title>Avatar 3D – Cartoon Humanoid</title>
   <style>
-    body, html { margin:0; height:100%; overflow:hidden; background: linear-gradient(135deg, #1e3c72, #2a5298); }
-    #container { width:100%; height:100%; }
+    body, html { margin:0; height:100%; overflow:hidden; background: #222; }
+    #avatarContainer { width:100%; height:100%; }
   </style>
 </head>
 <body>
-  <div id="container"></div>
-  <!-- Three.js i GLTFLoader -->
+  <div id="avatarContainer"></div>
+
+  <!-- Three.js + OrbitControls -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/controls/OrbitControls.js"></script>
   <script>
-    // 1) Inicjalizacja sceny, kamery i renderera
-    const container = document.getElementById('container');
+    // 1) Scena, kamera, renderer
+    const container = document.getElementById('avatarContainer');
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 1.2, 3);
+    const camera = new THREE.PerspectiveCamera(50, container.clientWidth/container.clientHeight, 0.1, 1000);
+    camera.position.set(0, 1.5, 4);
+    camera.lookAt(0, 1.2, 0);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(container.clientWidth, container.clientHeight);
     container.appendChild(renderer.domElement);
 
-    // 2) Światło
+    // 2) Światła
     const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1.2);
-    hemi.position.set(0, 2, 0);
-    scene.add(hemi);
-
+    hemi.position.set(0, 2, 0); scene.add(hemi);
     const dir = new THREE.DirectionalLight(0xffffff, 0.8);
-    dir.position.set(5, 10, 7.5);
-    scene.add(dir);
+    dir.position.set(5, 10, 7.5); scene.add(dir);
 
-    // 3) Kontrolki Orbit
+    // 3) Kontrolki
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.target.set(0, 1.2, 0);
     controls.update();
 
-    // 4) Wczytanie modelu glTF
-    const loader = new THREE.GLTFLoader();
-    loader.load(
-      'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/CesiumMan/glTF/CesiumMan.gltf',
-      gltf => {
-        const model = gltf.scene;
-        model.scale.set(1.2,1.2,1.2);
-        scene.add(model);
-        animate();
-      },
-      undefined,
-      error => console.error('Błąd ładowania modelu:', error)
-    );
+    // 4) Materiał
+    const mat = new THREE.MeshStandardMaterial({ color: 0x44aa88, flatShading:true });
 
-    // 5) Animacja
+    // 5) Grupa avatara
+    const avatar = new THREE.Group();
+
+    // --- Tułów (kapsuła) ---
+    const torso = new THREE.Mesh(
+      new THREE.CapsuleGeometry(0.5, 1.0, 4, 8),
+      mat
+    );
+    torso.position.y = 1.0;
+    avatar.add(torso);
+
+    // --- Głowa (kula) ---
+    const head = new THREE.Mesh(
+      new THREE.SphereGeometry(0.45, 16, 16),
+      mat
+    );
+    head.position.y = 2.3;
+    avatar.add(head);
+
+    // --- Ramiona (capsule) ---
+    function makeLimb(angle, sideX) {
+      const limb = new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.15, 0.7, 4, 8),
+        mat
+      );
+      limb.position.set(sideX, 1.5, 0);
+      limb.rotation.z = angle * sideX;
+      avatar.add(limb);
+    }
+    makeLimb(0.6, -1); // lewa ręka
+    makeLimb(-0.6, 1); // prawa ręka
+
+    // --- Nogi (capsule) ---
+    function makeLeg(x) {
+      const leg = new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.18, 0.9, 4, 8),
+        mat
+      );
+      leg.position.set(x, 0.1, 0);
+      avatar.add(leg);
+    }
+    makeLeg(-0.3); // lewa noga
+    makeLeg(0.3);  // prawa noga
+
+    scene.add(avatar);
+
+    // 6) Animacja
     function animate() {
       requestAnimationFrame(animate);
-      controls.update();
+      avatar.rotation.y += 0.005;
       renderer.render(scene, camera);
     }
+    animate();
 
-    // 6) Responsywność
+    // 7) Responsywność
     window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth/window.innerHeight;
+      camera.aspect = container.clientWidth/container.clientHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setSize(container.clientWidth, container.clientHeight);
     });
   </script>
 </body>
