@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8" />
-  <title>1 z 10 - Gra</title>
-  <link rel="stylesheet" href="style/game.css" />
+  <meta charset="UTF-8"/>
+  <title>1 z 10 – Gra</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <h1>🎮 1 z 10</h1>
-  <div id="playersArea"></div>
-  <div id="questionArea"></div>
-  <script src="js/game.js"></script>
+  <div class="screen">
+    <h1>1 z 10</h1>
+    <div id="question" class="question">Kliknij START, żeby zacząć</div>
+    <button id="startBtn" class="btn">START</button>
+    <div id="answers" class="answers"></div>
+    <div class="status">
+      <span id="score">Punkty: 0</span>
+      <span id="lives">Życia: ❤️❤️❤️</span>
+    </div>
+    <button onclick="location.href='index.html'" class="btn">Powrót</button>
+  </div>
+  <script src="game.js"></script>
 </body>
 </html>
