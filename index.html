@@ -2,34 +2,32 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8"/>
-  <title>Eventyyy – Generator Avatara</title>
+  <title>Eventyyy – Avatar & Start</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <div class="avatar-container">
-    <div class="layer" id="body-layer"><img src="" alt="body"></div>
-    <div class="layer" id="eyes-layer"><img src="" alt="eyes"></div>
-    <div class="layer" id="hat-layer"><img src="" alt="hat"></div>
-  </div>
+  <div class="screen">
+    <h1>Eventyyy</h1>
 
-  <div class="controls">
-    <div class="control-group">
-      <button data-part="body" data-dir="-1">◀</button>
-      <span>Ciało</span>
-      <button data-part="body" data-dir="1">▶</button>
+    <!-- AVATAR -->
+    <div class="avatar-wrapper">
+      <div id="avatar" class="avatar">
+        <div class="face"></div>
+        <div id="hat" class="hat"></div>
+        <div id="mustache" class="mustache"></div>
+      </div>
+      <button id="skinBtn" class="btn">Zmień Skin</button>
     </div>
-    <div class="control-group">
-      <button data-part="eyes" data-dir="-1">◀</button>
-      <span>Oczy</span>
-      <button data-part="eyes" data-dir="1">▶</button>
-    </div>
-    <div class="control-group">
-      <button data-part="hat" data-dir="-1">◀</button>
-      <span>Czapka</span>
-      <button data-part="hat" data-dir="1">▶</button>
-    </div>
+
+    <!-- START GRY -->
+    <button id="startGame" class="btn btn-start">Start gry „1 z 10”</button>
   </div>
 
   <script src="avatar.js"></script>
+  <script>
+    document.getElementById('startGame').onclick = ()=> {
+      window.location.href = 'game.html';
+    };
+  </script>
 </body>
 </html>
