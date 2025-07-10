@@ -1,40 +1,28 @@
-// Dla każdego „part” podaj ile masz plików w folderze assets/<part>/
-const CONFIG = {
-  body: 3,
-  eyes: 3,
-  hat: 3
-};
+// Proste cykliczne zmiany avatara: twarz już jest, potem czapka, wąsy, oba, wylaczone
+const avatar = document.getElementById('avatar');
+const hat     = document.getElementById('hat');
+const mustache= document.getElementById('mustache');
+const face    = avatar.querySelector('.face');
 
-const state = {
-  body: 1,
-  eyes: 1,
-  hat: 1
-};
+const skins = [
+  { color:'#ffc107', hat:false, mustache:false },
+  { color:'#8e44ad', hat:true,  mustache:false },
+  { color:'#2ecc71', hat:false, mustache:true  },
+  { color:'#e67e22', hat:true,  mustache:true  },
+];
+let idx = 0;
 
-function updateLayer(part) {
-  const idx = state[part];
-  const el = document.querySelector(`#${part}-layer img`);
-  el.src = `assets/${part}/${part}${idx}.png`;
+function applySkin(i){
+  const s = skins[i];
+  face.style.background = s.color;
+  hat.style.display      = s.hat      ? 'block' : 'none';
+  mustache.style.display = s.mustache ? 'block' : 'none';
 }
 
-// ustawiamy początkowe obrazki
-Object.keys(state).forEach(p => {
-  const container = document.getElementById(`${p}-layer`);
-  // dodajemy <img> do warstwy
-  const img = document.createElement('img');
-  container.appendChild(img);
-  updateLayer(p);
-});
+document.getElementById('skinBtn').onclick = ()=>{
+  idx = (idx+1) % skins.length;
+  applySkin(idx);
+};
 
-// obsługa strzałek
-document.querySelectorAll('.control-group button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const part = btn.dataset.part;
-    const dir  = parseInt(btn.dataset.dir, 10);
-    let n = state[part] + dir;
-    if (n < 1) n = CONFIG[part];
-    if (n > CONFIG[part]) n = 1;
-    state[part] = n;
-    updateLayer(part);
-  });
-});
+// inicjalnie
+applySkin(0);
