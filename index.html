@@ -178,3 +178,39 @@
 
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Eventyyy – Generator Avatara</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="avatar-container">
+    <div class="layer" id="body-layer"><img src="" alt="body"></div>
+    <div class="layer" id="eyes-layer"><img src="" alt="eyes"></div>
+    <div class="layer" id="hat-layer"><img src="" alt="hat"></div>
+  </div>
+
+  <div class="controls">
+    <div class="control-group">
+      <button data-part="body" data-dir="-1">◀</button>
+      <span>Ciało</span>
+      <button data-part="body" data-dir="1">▶</button>
+    </div>
+    <div class="control-group">
+      <button data-part="eyes" data-dir="-1">◀</button>
+      <span>Oczy</span>
+      <button data-part="eyes" data-dir="1">▶</button>
+    </div>
+    <div class="control-group">
+      <button data-part="hat" data-dir="-1">◀</button>
+      <span>Czapka</span>
+      <button data-part="hat" data-dir="1">▶</button>
+    </div>
+  </div>
+
+  <script src="avatar.js"></script>
+</body>
+</html>
